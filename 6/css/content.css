@@ -1,0 +1,23 @@
+body {
+    font-family: Exo, '-apple-system', 'Open Sans', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+}
+ 
+.areas-i {
+    grid-template-columns: 80px repeat(13, 1fr);
+    grid-template-areas:
+        '. . c c c c c c c c c c . .'
+        'n . c c c c c c c c c c . .'
+        '. . c c c c c c c c c c . .'
+        'f f f f f f f f f f f f f f';
+}
+
+@media (max-width: 900px) {
+    .areas-i {
+        grid-template-columns: 80px repeat(13, 1fr);
+        grid-template-areas:
+            '. c c c c c c c c c c c c .'
+            'n c c c c c c c c c c c c .'
+            '. c c c c c c c c c c c c .'
+            'f f f f f f f f f f f f f f';
+    }
+}

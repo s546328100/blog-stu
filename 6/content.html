@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>dsc's Blog</title>
+
+    <link rel="stylesheet" href="https://halfrost.com/assets/css/font.min.css" media="all">
+    <link rel="stylesheet" href="css/blog.css">
+    <link rel="stylesheet" href="css/blog.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_508783_1ntsr507tffde7b9.css"></link>
+    <link href="css/markdown.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container areas-i">
+        <nav class="animate-box">
+            <ul class="nav-i">
+                <li>
+                    <a href="blog.html">
+                        <i class="iconfont icon-homepage_fill"></i>主页</a>
+                </li>
+                <li>
+                    <a href="archives.html">
+                        <i class="iconfont icon-activity_fill"></i>归档</a>
+                </li>
+                <li>
+                    <a href="about.html">
+                        <i class="iconfont icon-people_fill"></i>关于</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="content radius animate-box">
+            <section>
+                <article class="animate-box">
+                    <header>
+                        <h1 class="title">
+                            <a class="link" href="content.html">
+                                北京烤鸭好吃吗？？
+                            </a>
+                        </h1>
+                        <div class="post-meta">
+                            <span>发表于 2018-01-30</span>
+                            <span class="post-meta-divider">|</span>
+                            <span>
+                                <i class="iconfont icon-chat"></i>
+                            </span>
+                            <a href="content.html?1#container">
+                                <span>2</span>
+                            </a>
+                        </div>
+                    </header>
+                    <img src="https://user-gold-cdn.xitu.io/2018/5/13/16359c7b4fffa97c?imageslim" class="image" style="width:100px;">
+                    <br>
+                    <div class="markdown-body" id="preview"></div>
+                    <footer class="animate-box">
+                        <div class="post-eof"></div>
+                    </footer>
+                </article>
+            </section>
+        </div>
+        <div class="footer animate-box">
+            <p>2017 dsc's Blog - Hosted by gitHub</p>
+        </div>
+        <div class="gototop">
+            <div class="js-gotop">
+                <i class="iconfont icon-arrows-4-7"></i>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdn.bootcss.com/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<script src="js/main.js"></script>
+
+<script>
+    $.ajax({
+        type: 'get',
+        url: `http://dusuchao.xin/md/前端小白徒手搭博客之路.md`,
+        success: data => {
+            $('#preview')[0].innerHTML = marked(data);
+            hljs.initHighlightingOnLoad();
+            showImage();
+        },
+        error: data => {
+            if (data.status !== 200) window.location.href = '404.html';
+        }
+    })
+</script>
+
+<script>
+    function showImage() {
+        let container = document.documentElement || document.body;
+        let img, div, src;
+        let x, y, w, h, tx, ty, tw, th, ww, wh;
+        let closeMove = function () {
+            if (div == undefined) {
+                return false;
+            }
+            div.style.opacity = 0;
+
+            // 延迟移除dom
+            setTimeout(function () {
+                div.remove();
+                img.remove();
+            }, 100);
+        };
+
+        let closeFade = function () {
+            if (div == undefined) {
+                return false;
+            }
+            div.style.opacity = 0;
+            img.style.opacity = 0;
+            // 延迟移除dom
+            setTimeout(function () {
+                div.remove();
+                img.remove();
+            }, 100);
+        };
+
+        // 监听滚动关闭层
+        document.addEventListener("scroll", function () {
+            closeFade();
+        });
+        document.querySelectorAll("img").forEach(v => {
+            v.addEventListener("click", function (e) { // 注册事件
+                src = e.target.src;
+                w = e.target.naturalWidth;
+                h = e.target.naturalHeight;
+                console.log(e);
+                // 创建遮罩层
+                div = document.createElement("div");
+                div.style.cssText = `
+                    position:fixed;
+                    left:0;
+                    top:0;
+                    bottom:0;
+                    right:0;
+                    background-color:#fff;
+                    transition:opacity .3s;
+                    opacity:0;
+                    z-index: 998;
+                `;
+                document.body.appendChild(div);
+                setTimeout(function () {
+                    div.style.opacity = 1;
+                }, 0);
+                // (此处可以加loading)
+
+                // 创建副本
+                img = new Image();
+                img.src = src;
+                img.style.cssText = `
+                    margin: 0 auto;
+                    position:fixed;
+                    left:0; 
+                    right:0; 
+                    top:0; 
+                    bottom:0; 
+                    margin: auto;
+                    transition:opacity .8s;
+                    opacity:0;
+                    z-index: 999;
+                `;
+                img.onload = function () {
+                    document.body.appendChild(img);
+
+                    wh = window.innerHeight;
+                    ww = window.innerWidth;
+
+                    // 延迟写入否则不会有动画
+                    setTimeout(function () {
+                        img.style.opacity = 1;
+                        if (w > ww) img.style.width = ww + 'px';
+                        if (h > wh) img.style.height = wh + 'px';
+                        // 点击隐藏
+                        div.onclick = img.onclick = closeMove;
+                    }, 0);
+                };
+            });//end event
+        });//end forEach
+    }
+</script>
+
+</html>
